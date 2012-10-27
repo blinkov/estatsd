@@ -223,7 +223,7 @@ do_report_gauges(Gauges) ->
     {Msg, length(Gauges)}.
 
 do_report_vm_metrics(TsStr, State) ->
-    case State#state.vm_metrics of
+    Msg = case State#state.vm_metrics of
         true ->
             NodeKey = node_key(),
             {TotalReductions, Reductions} = erlang:statistics(reductions),
@@ -254,9 +254,9 @@ do_report_vm_metrics(TsStr, State) ->
                  TsStr, "\n"
                 ]
             end, erlang:memory()),
-            Msg = StatsMsg ++ MemoryMsg;
+            StatsMsg ++ MemoryMsg;
         false ->
-            Msg = []
+            []
     end,
     {Msg, length(Msg)}.
 
